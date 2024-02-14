@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Example</title>
+    <style>
+        /* Initially hide the second input field */
+        #input2-container {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Made this bouquet for you</h2>
+
+    <form id="myForm">
+        <label for="input1">Enter your prefered emoji:</label>
+        <input type="text" id="input1" name="input1" placeholder="Enter emoji">
+
+        <br>
+
+        <input type="checkbox" id="checkbox" name="checkbox">
+        <label for="checkbox">Use your own second emoji</label>
+
+        <br>
+
+        <!-- Container for Input Field 2 (Initially hidden) -->
+        <div id="input2-container">
+            <label for="input2">Entered prefered second emoji:</label>
+            <input type="text" id="input2" name="input2" placeholder="Enter text">
+        </div>
+
+        <div id="options-container">
+            <label for="options">Select an option:</label>
+            <select id="options" name="options">
+                <option value="🌹">🌹</option>
+                <option value="🌷">🌷</option>
+                <option value="🪻">🪻</option>
+                <option value="🌻">🌻</option>
+            </select>
+        </div>
+
+        <br>
+
+        <input type="button" value="Submit" onclick="submitForm()">
+    </form>
+
+    <div id="output"></div>
+
+    <script>
+        function isEmoji(input) {
+                    // Regular expression to check if the input is an emoji
+                    const emojiRegex = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
+
+                    return emojiRegex.test(input);
+                }
+        
+        function submitForm() {
+            const input1 = document.getElementById('input1');
+            const input2 = document.getElementById('input2');
+            const checkbox = document.getElementById('checkbox');
+            const options = document.getElementById('options');
+            var secondInput;
+            
+            const sanitizedInput1 = escapeHtml(input1.value);
+            const sanitizedInput2 = escapeHtml(input2.value);
+            const sanitizedOptions = escapeHtml(options.value);
+
+            if (!isEmoji(sanitizedInput1)) {
+                           alert('Please enter a valid emoji.');
+                           return;
+            }
+            if(checkbox.checked == true){
+                if (!isEmoji(sanitizedInput2)) {
+                               alert('Please enter a valid Second emoji.');
+                               return;
+                }
+                secondInput = sanitizedInput2;
+            }else{
+                secondInput = sanitizedOptions;
+            }
+            
+            const outputDiv = document.getElementById('output');
+            outputDiv.innerHTML = `
+            <pre>
+            
+    ${secondInput}${sanitizedInput1}${secondInput}${sanitizedInput1}
+   ${sanitizedInput1}${secondInput}${sanitizedInput1}${secondInput}${sanitizedInput1}
+ /ᐠ ${secondInput}${sanitizedInput1}${secondInput}${sanitizedInput1}${secondInput}
+(˶ᵔᵕᵔ${secondInput}${sanitizedInput1}${secondInput}
+ \\つ \\  /
+  U U/🎀\\
+            </pre>
+            `;
+            
+            
+        }
+
+        function escapeHtml(unsafe) {
+            return document.createElement('div').appendChild(document.createTextNode(unsafe)).parentNode.innerHTML;
+        }
+
+        
+        const checkbox = document.getElementById('checkbox');
+        const input2Container = document.getElementById('input2-container');
+        const optionsContainer = document.getElementById('options-container');
+
+        // Add an event listener to the checkbox to toggle the visibility of Input Field 2 and Combo Box
+        checkbox.addEventListener('change', function() {
+            input2Container.style.display = checkbox.checked ? 'block' : 'none';
+            optionsContainer.style.display = checkbox.checked ? 'none' : 'block';
+        });
+    </script>
+
+</body>
+</html>
