@@ -52,7 +52,7 @@
     <script>
         function isEmoji(input) {
                     // Regular expression to check if the input is an emoji
-                    const emojiRegex = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
+                    const emojiRegex = /^[\uD800-\uDBFF][\uDC00-\uDFFF]$/;
 
                     return emojiRegex.test(input);
                 }
@@ -69,12 +69,12 @@
             const sanitizedOptions = escapeHtml(options.value);
 
             if (!isEmoji(sanitizedInput1)) {
-                           alert('Please enter a valid emoji.');
+                           alert('Please enter a valid single emoji.');
                            return;
             }
             if(checkbox.checked == true){
                 if (!isEmoji(sanitizedInput2)) {
-                               alert('Please enter a valid Second emoji.');
+                               alert('Please enter a valid single Second emoji.');
                                return;
                 }
                 secondInput = sanitizedInput2;
